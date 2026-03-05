@@ -12,11 +12,13 @@ abstract class Room {
     }
 
     void displayRoomDetails(int availableRooms) {
-        System.out.println("Room Type: " + roomType);
-        System.out.println("Beds: " + beds);
-        System.out.println("Price per Night: $" + price);
-        System.out.println("Available Rooms: " + availableRooms);
-        System.out.println();
+        if (availableRooms > 0) {
+            System.out.println("Room Type: " + roomType);
+            System.out.println("Beds: " + beds);
+            System.out.println("Price per Night: $" + price);
+            System.out.println("Available Rooms: " + availableRooms);
+            System.out.println();
+        }
     }
 }
 
@@ -52,13 +54,21 @@ class RoomInventory {
     int getAvailability(String roomType) {
         return inventory.getOrDefault(roomType, 0);
     }
+}
 
-    void displayInventory() {
-        System.out.println("Current Room Inventory:");
-        for (String roomType : inventory.keySet()) {
-            System.out.println(roomType + " -> Available: " + inventory.get(roomType));
+class SearchService {
+    private RoomInventory inventory;
+
+    SearchService(RoomInventory inventory) {
+        this.inventory = inventory;
+    }
+
+    void showAvailableRooms(Room[] rooms) {
+        System.out.println("Available Rooms for Booking:\n");
+        for (Room room : rooms) {
+            int available = inventory.getAvailability(room.roomType);
+            room.displayRoomDetails(available);
         }
-        System.out.println();
     }
 }
 
@@ -66,23 +76,17 @@ public class BookMyStayApp {
     public static void main(String[] args) {
 
         RoomInventory inventory = new RoomInventory();
-
         inventory.addRoom("Single Room", 5);
-        inventory.addRoom("Double Room", 3);
+        inventory.addRoom("Double Room", 0);
         inventory.addRoom("Suite Room", 2);
 
-        Room single = new SingleRoom();
-        Room doubleRoom = new DoubleRoom();
-        Room suite = new SuiteRoom();
+        Room[] rooms = {new SingleRoom(), new DoubleRoom(), new SuiteRoom()};
 
-        System.out.println("Welcome to the Hotel Booking Management System v3.0\n");
+        System.out.println("Welcome to the Hotel Booking Management System v4.0\n");
 
-        single.displayRoomDetails(inventory.getAvailability("Single Room"));
-        doubleRoom.displayRoomDetails(inventory.getAvailability("Double Room"));
-        suite.displayRoomDetails(inventory.getAvailability("Suite Room"));
+        SearchService search = new SearchService(inventory);
+        search.showAvailableRooms(rooms);
 
-        inventory.displayInventory();
-
-        System.out.println("Centralized inventory setup completed successfully.");
+        System.out.println("Room search completed successfully. Inventory remains unchanged.");
     }
 }
