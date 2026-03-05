@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 abstract class Room {
     String roomType;
     int beds;
@@ -36,23 +38,51 @@ class SuiteRoom extends Room {
     }
 }
 
+class RoomInventory {
+    private HashMap<String, Integer> inventory;
+
+    RoomInventory() {
+        inventory = new HashMap<>();
+    }
+
+    void addRoom(String roomType, int count) {
+        inventory.put(roomType, count);
+    }
+
+    int getAvailability(String roomType) {
+        return inventory.getOrDefault(roomType, 0);
+    }
+
+    void displayInventory() {
+        System.out.println("Current Room Inventory:");
+        for (String roomType : inventory.keySet()) {
+            System.out.println(roomType + " -> Available: " + inventory.get(roomType));
+        }
+        System.out.println();
+    }
+}
+
 public class BookMyStayApp {
     public static void main(String[] args) {
 
-        int singleRoomAvailability = 5;
-        int doubleRoomAvailability = 3;
-        int suiteRoomAvailability = 2;
+        RoomInventory inventory = new RoomInventory();
+
+        inventory.addRoom("Single Room", 5);
+        inventory.addRoom("Double Room", 3);
+        inventory.addRoom("Suite Room", 2);
 
         Room single = new SingleRoom();
         Room doubleRoom = new DoubleRoom();
         Room suite = new SuiteRoom();
 
-        System.out.println("Welcome to the Hotel Booking Management System v2.0\n");
+        System.out.println("Welcome to the Hotel Booking Management System v3.0\n");
 
-        single.displayRoomDetails(singleRoomAvailability);
-        doubleRoom.displayRoomDetails(doubleRoomAvailability);
-        suite.displayRoomDetails(suiteRoomAvailability);
+        single.displayRoomDetails(inventory.getAvailability("Single Room"));
+        doubleRoom.displayRoomDetails(inventory.getAvailability("Double Room"));
+        suite.displayRoomDetails(inventory.getAvailability("Suite Room"));
 
-        System.out.println("Room initialization completed successfully.");
+        inventory.displayInventory();
+
+        System.out.println("Centralized inventory setup completed successfully.");
     }
 }
