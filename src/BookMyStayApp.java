@@ -83,7 +83,6 @@ public class BookMyStayApp {
         RoomAllocationService service = new RoomAllocationService();
         RoomInventory inventory = new RoomInventory();
 
-        // FIFO Queue (as required)
         Queue<Reservation> queue = new LinkedList<>();
 
         queue.add(new Reservation("Abhi", "Single"));
