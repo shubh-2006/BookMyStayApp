@@ -1,6 +1,5 @@
 import java.util.*;
 
-// ---------------- Reservation ----------------
 class Reservation {
     String guestName;
     String roomType;
@@ -11,7 +10,6 @@ class Reservation {
     }
 }
 
-// ---------------- BookingHistory ----------------
 class BookingHistory {
 
     private List<Reservation> confirmedReservations;
@@ -29,7 +27,6 @@ class BookingHistory {
     }
 }
 
-// ---------------- BookingReportService ----------------
 class BookingReportService {
 
     public void generateReport(BookingHistory history) {
@@ -42,7 +39,6 @@ class BookingReportService {
     }
 }
 
-// ---------------- MAIN CLASS ----------------
 public class BookMyStayApp {
 
     public static void main(String[] args) {
