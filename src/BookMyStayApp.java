@@ -1,6 +1,5 @@
 import java.util.*;
 
-// ---------------- RoomInventory ----------------
 class RoomInventory {
     private Map<String, Integer> inventory = new HashMap<>();
 
@@ -19,13 +18,12 @@ class RoomInventory {
     }
 }
 
-// ---------------- CancellationService ----------------
 class CancellationService {
 
-    // Stack for rollback (LIFO)
+
     private Stack<String> releasedRoomIds;
 
-    // Map reservationId → roomType
+
     private Map<String, String> reservationRoomTypeMap;
 
     public CancellationService() {
@@ -33,12 +31,10 @@ class CancellationService {
         reservationRoomTypeMap = new HashMap<>();
     }
 
-    // Register confirmed booking
     public void registerBooking(String reservationId, String roomType) {
         reservationRoomTypeMap.put(reservationId, roomType);
     }
 
-    // Cancel booking
     public void cancelBooking(String reservationId, RoomInventory inventory) {
 
         if (!reservationRoomTypeMap.containsKey(reservationId)) {
@@ -48,19 +44,15 @@ class CancellationService {
 
         String roomType = reservationRoomTypeMap.get(reservationId);
 
-        // Push to stack (rollback tracking)
         releasedRoomIds.push(reservationId);
 
-        // Restore inventory
         inventory.increase(roomType);
 
-        // Remove booking
         reservationRoomTypeMap.remove(reservationId);
 
         System.out.println("Booking cancelled successfully. Inventory restored for room type: " + roomType);
     }
 
-    // Show rollback history
     public void showRollbackHistory() {
 
         System.out.println("\nRollback History (Most Recent First):");
@@ -71,7 +63,6 @@ class CancellationService {
     }
 }
 
-// ---------------- MAIN CLASS ----------------
 public class BookMyStayApp {
 
     public static void main(String[] args) {
@@ -81,17 +72,13 @@ public class BookMyStayApp {
         RoomInventory inventory = new RoomInventory();
         CancellationService service = new CancellationService();
 
-        // Simulate confirmed booking
         String reservationId = "Single-1";
         service.registerBooking(reservationId, "Single");
 
-        // Cancel booking
         service.cancelBooking(reservationId, inventory);
 
-        // Show rollback
         service.showRollbackHistory();
 
-        // Show updated inventory
         System.out.println("\nUpdated Single Room Availability: "
                 + inventory.getAvailable("Single"));
     }
