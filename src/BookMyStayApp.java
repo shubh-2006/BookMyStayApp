@@ -56,14 +56,11 @@ public class BookMyStayApp {
 
         AddOnServiceManager manager = new AddOnServiceManager();
 
-        // Example reservation ID (from UC6 output)
         String reservationId = "Single-1";
 
-        // Add services
         manager.addService(reservationId, new AddOnService("Breakfast", 500));
         manager.addService(reservationId, new AddOnService("Spa", 1000));
 
-        // Calculate total cost
         double totalCost = manager.calculateTotalServiceCost(reservationId);
 
         System.out.println("Reservation ID: " + reservationId);
